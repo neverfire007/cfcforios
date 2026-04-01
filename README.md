@@ -65,7 +65,4 @@ After cloning this repository, follow these steps to avoid "Framework not found"
 3. Open the project in Xcode.
 4. Build and Run on your iOS device or simulator.
 
----
 
-## 📄 License
-[Insert your license info here, e.g., MIT]
