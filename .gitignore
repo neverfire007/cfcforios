@@ -1,0 +1,79 @@
+# Xcode
+build/
+**/opencv2.framework/
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcshareddata/xcuserdata/
+*.xcshareddata/swiftpm
+*.playground/
+xcuserdata
+DerivedData/
+*.log
+*.dSYM
+*.ipa
+*.xcarchive
+*.hmap
+*.xctest-*
+
+# CocoaPods
+Pods/
+Podfile.lock
+*.podspec.json
+
+# Carthage
+Carthage/Build/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.fseventsd
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.tmp
+
+# User settings
+*.user
+*.userbckp
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserstate
+xcshareddata
+
+# Local/environment files
+.env
+.env.local
+.env.*
+credentials*.json
+config*.local
+*.pem
+*.p12
+*.mobileprovision
+*.provisionprofile
+
+# Compiled source
+*.o
+*.a
+*.framework/*.dylib
+
+# Crash reports
+*.crash
