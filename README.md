@@ -1,35 +1,71 @@
-# cfcforios - Cimbar 解码器 for iOS
+## 🏆 致谢 / Acknowledgments
 
-本项目是一个基于 iOS 的动态高密度二维码（Cimbar）解码应用程序。通过系统摄像头捕捉动态视频流，利用底层 C++ 库 (`libcimbar`) 进行极速解码和文件恢复。
+本项目是基于以下优秀开源项目的 iOS 实现。诚挚感谢原作者的卓越工作与启发。
+This project is an iOS implementation built upon the following remarkable open-source works. Sincere thanks to the original authors for their vision and contributions.
 
-## 🌟 核心功能
-*   **实时扫描**：通过 `AVFoundation` 捕捉 1080p 视频流，并实时处理。
-*   **高效解码**：集成 `libcimbar` C++ 核心，利用喷泉码（Fountain Codes）技术，即使在丢失部分帧的情况下也能恢复完整文件。
-*   **状态反馈**：实时显示解码进度、百分比以及速度提示。
-*   **自动存储**：文件解码完成后自动保存至系统临时目录，并支持结果预览。
+### 📚 技术渊源 / Inspiration & Core Technology
 
-## 🛠️ 技术栈
-*   **Frontend**: SwiftUI (ReceiverView, ReceiverViewModel)
-*   **Backend**: Swift & Objective-C++ 混合编程
-*   **Engine**: `libcimbar` (C++20)
-*   **Vision**: OpenCV & Accelerate Framework (图像预处理)
+* **[cimbar](https://github.com/sz3/cimbar)** (by **[sz3](https://github.com/sz3)**)
+    * **CN:** 提供了核心的高密度彩色二维条码算法。
+    * **EN:** Provided the core high-density color 2D barcode algorithm and implementation.
+* **[cfc](https://github.com/sz3/cfc)** (by **[sz3](https://github.com/sz3)**)
+    * **CN:** 提供了高效的传输协议与流控制逻辑。
+    * **EN:** Contributed the efficient transport protocol and flow control logic.
+* **[cfcforios](https://github.com/Superinterface/cfcforios)** (by **[Superinterface](https://github.com/Superinterface)**)
+    * **CN:** 提供了 iOS 端的初始移植方案与 Swift/C++ 集成框架。
+    * **EN:** Provided the foundational iOS port and Swift/C++ integration framework.
 
-## 📂 项目结构
-*   `cfcforios/`：主源代码文件夹。
-    *   `CimbarWrapper.mm/.h`：Objective-C++ 包装器，负责将 iOS `CVPixelBuffer` 转换为 `cv::Mat` 并喂给解码器。
-    *   `CameraManager.swift`：相机流管理与预览组件。
-    *   `ReceiverViewModel.swift`：业务逻辑与状态同步。
-    *   `ScanCode-Bridging-Header.h`：桥接头文件，将 C++ 接口暴露给 Swift。
-*   `cfcforios.xcodeproj/`：Xcode 工程配置文件。
+### 💡 特别鸣谢 / Special Thanks
 
-## 🚀 运行环境
-*   **iOS SDK**: 18.5+
-*   **Xcode**: 16.4+
-*   **硬件**: 需要真机运行（摄像头驱动需硬件支持）
+特别感谢 **[sz3](https://github.com/sz3)** 在 **[Issue #65](https://github.com/sz3/cfc/issues/65)** 中分享的技术洞察，这些见解为本项目在 iOS 端的优化与功能完善提供了关键指导。
 
-## ⚠️ 注意事项
-1.  **权限**：运行前请确保已开启摄像头权限（在 `Info.plist` 中已配置 `NSCameraUsageDescription`）。
-2.  **构建环境**：由于使用了 OpenCV，建议确保工程内的 `HEADER_SEARCH_PATHS` 和 `FRAMEWORK_SEARCH_PATHS` 正确配置。
+Special thanks to **[sz3](https://github.com/sz3)** and **[Issue #65](https://github.com/sz3/cfc/issues/65)** for the technical insights shared in Issue #65, which provided critical guidance for the refinement and optimization of this application.
+
+# cfcforios
+
+## ⚠️ Important: OpenCV Not Included / 重要提示：未包含 OpenCV
+
+> [!IMPORTANT]
+> To keep this repository lightweight, the **opencv2.framework** (approx. 400MB+) is **NOT** included in this repository. You **MUST** download it manually before building the project.
+> 为保持仓库轻量化，本项目**不包含** **opencv2.framework**（体积约 400MB+）。在编译运行前，你**必须**手动下载并配置该框架，否则无法通过编译。
+
+---
+
+## 🛠 Prerequisites / 前提条件
+
+### 1. Download OpenCV / 下载 OpenCV
+- **Version / 版本**: OpenCV 2.4.x (iOS pack).
+- **Download Link / 下载地址**: [OpenCV Official Releases](https://opencv.org/releases/).
+- **Action / 操作**: Download the **iOS pack**, unzip it, and locate the `opencv2.framework` folder.
+- **操作指南**: 下载 **iOS pack**，解压并找到 `opencv2.framework` 文件夹。
+
+### 2. Manual Installation / 手动安装步骤
+After cloning this repository, follow these steps to avoid "Framework not found" errors:
+克隆本仓库后，请执行以下步骤以避免“Framework not found”编译错误：
+
+1. **Create Folder / 创建目录**: 
+   Create a folder named `Frameworks` in the project root directory.
+   在项目根目录下创建一个名为 `Frameworks` 的文件夹。
+2. **Copy Framework / 拷贝文件**: 
+   Move your downloaded `opencv2.framework` into this `Frameworks/` folder.
+   将下载好的 `opencv2.framework` 移动（或拷贝）到这个 `Frameworks/` 文件夹中。
+3. **Xcode Check / Xcode 检查**:
+   - Open `cfcforios.xcodeproj`.
+   - Go to **Target** -> **General** -> **Frameworks, Libraries, and Embedded Content**.
+   - Ensure `opencv2.framework` is listed. If it is missing (shown in red), drag and drop it there from your `Frameworks/` folder.
+   - Set it to **Do Not Embed** (OpenCV 2 is typically a static library).
+   - 在 Xcode 的 **General** 选项卡中确认已添加该库，并设置为 **Do Not Embed**。
+
+---
+
+## 🚀 Getting Started / 快速开始
+
+1. Clone the repo: `git clone https://github.com/neverfire007/cfcforios.git`
+2. Complete the **OpenCV** setup mentioned above.
+3. Open the project in Xcode.
+4. Build and Run on your iOS device or simulator.
+
+---
 
 ## 📄 License
-基于开源项目 [cimbar](https://github.com/sz3/cimbar) 的 iOS 实现。
+[Insert your license info here, e.g., MIT]
